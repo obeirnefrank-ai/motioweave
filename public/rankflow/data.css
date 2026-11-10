@@ -1,0 +1,59 @@
+.data-main { max-width:1600px; }
+.source-tabs { display:flex; gap:8px; width:fit-content; max-width:100%; margin-bottom:20px; padding:5px; border:1px solid #d6ddd8; border-radius:12px; background:#e5e9e5; }
+.source-tabs button { display:flex; align-items:center; gap:11px; min-width:235px; min-height:58px; padding:9px 15px 9px 10px; border:1px solid transparent; border-radius:8px; background:transparent; color:#526159; text-align:left; cursor:pointer; }
+.source-tabs button:hover { background:#f2f5f2; color:#10261f; }.source-tabs button.active { border-color:#cbd4ce; background:#fff; color:#10261f; box-shadow:0 3px 9px rgba(15,37,29,.09); }
+.source-tabs i { display:grid; place-items:center; width:35px; height:35px; flex:0 0 35px; border:1px solid #bcc8c0; border-radius:8px; background:#f5f7f5; color:#526159; font-style:normal; font-size:10px; font-weight:900; }.source-tabs button.active i { border-color:#10261f; background:#10261f; color:#d9f36d; }
+.source-tabs span,.source-tabs strong,.source-tabs small { display:block; }.source-tabs strong { font-size:12px; letter-spacing:-.1px; }.source-tabs small { margin-top:3px; color:#859189; font-size:9px; font-weight:600; }.source-tabs button.active small { color:#718078; }
+.source-panel[hidden] { display:none; }
+.fleet-data-card { overflow:hidden; margin-bottom:17px; border:1px solid #d6ddd8; border-radius:13px; background:#fff; box-shadow:0 10px 25px rgba(15,37,29,.04); }
+.fleet-data-heading { display:flex; justify-content:space-between; align-items:end; gap:24px; padding:18px 20px; border-bottom:1px solid #e0e5e1; }.fleet-data-heading h2 { margin:0; font-size:20px; letter-spacing:-.6px; }.fleet-data-heading > div > p:last-child { margin:5px 0 0; color:#78867f; font-size:10px; }.fleet-data-counts { display:flex; gap:8px; }.fleet-data-counts span { padding:8px 10px; border-radius:7px; background:#f0f3f0; color:#68766f; font-size:9px; white-space:nowrap; }.fleet-data-counts b { margin-right:4px; color:#10261f; font-size:12px; }.fleet-table { max-height:275px; }.fleet-table td:first-child { color:#718078; font-weight:850; }.fleet-table td:nth-child(2) strong,.fleet-table td:nth-child(2) small { display:block; }.fleet-table td:nth-child(2) small { margin-top:3px; color:#7e8b84; }.fleet-data-card footer { display:flex; justify-content:space-between; padding:11px 20px; border-top:1px solid #e0e5e1; background:#f6f8f6; color:#718078; font-size:9px; }
+.export-button { min-height:43px; padding:0 17px; border:0; border-radius:8px; background:#10261f; color:#fff; font-size:11px; font-weight:850; }
+.export-button:disabled { cursor:not-allowed; opacity:.45; }
+.data-metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:17px; }
+.data-metrics.office-metrics { grid-template-columns:repeat(4,1fr); }.data-metrics.rank-metrics { grid-template-columns:repeat(3,1fr); }
+.data-metrics article { display:grid; min-height:104px; padding:18px 20px; border:1px solid #d9dfda; border-radius:11px; background:#fff; }
+.data-metrics span { color:#6c7a73; font-size:10px; font-weight:850; letter-spacing:.8px; text-transform:uppercase; }
+.data-metrics strong { align-self:center; color:#10261f; font-size:31px; line-height:1; }
+.data-metrics small { color:#849089; font-size:10px; }.data-metrics .cancelled-metric { border-color:#e4c9c3; background:#fff8f5; }.cancelled-metric strong { color:#a3412e; }
+.ranking-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:17px; }
+.ranking-grid.two-up { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.ranking-card { overflow:hidden; min-height:260px; border:1px solid #d6ddd8; border-radius:12px; background:#fff; }
+.ranking-card header { display:flex; justify-content:space-between; gap:16px; padding:18px 20px 15px; border-bottom:1px solid #e3e7e4; }.ranking-card h2 { margin:0; font-size:18px; letter-spacing:-.6px; }.ranking-card header > span { color:#7c8982; font-size:9px; font-weight:850; text-transform:uppercase; }
+.ranking-list { padding:7px 20px 14px; }.ranking-row { display:grid; grid-template-columns:20px minmax(80px,1fr) 58px 28px; align-items:center; gap:8px; min-height:39px; border-bottom:1px solid #edf0ed; }.ranking-row:last-child { border-bottom:0; }.ranking-position { color:#8c9791; font-size:10px; font-weight:850; }.ranking-label { overflow:hidden; font-size:11px; font-weight:750; text-overflow:ellipsis; white-space:nowrap; }.ranking-bar { height:6px; overflow:hidden; border-radius:99px; background:#edf1ee; }.ranking-bar i { display:block; height:100%; border-radius:99px; background:#315f4b; }.ranking-row strong { text-align:right; font-size:11px; }.ranking-empty { margin:20px 0; color:#7d8983; font-size:11px; }
+.records-card { overflow:hidden; border:1px solid #d6ddd8; border-radius:13px; background:#fff; box-shadow:0 14px 35px rgba(15,37,29,.05); }.records-titlebar { display:flex; justify-content:space-between; align-items:end; gap:25px; padding:20px 22px; border-bottom:1px solid #e0e5e1; }.records-titlebar h2 { margin:0; font-size:21px; }.records-titlebar > div > p:last-child { margin:5px 0 0; color:#78867f; font-size:11px; }.record-controls { display:flex; align-items:end; gap:9px; }.record-controls label { display:grid; gap:5px; color:#69776f; font-size:8px; font-weight:850; letter-spacing:.7px; text-transform:uppercase; }.record-controls input,.record-controls select { min-width:145px; height:38px; padding:0 10px; border:1px solid #d3dad5; border-radius:7px; background:#f8faf8; color:#10261f; font-size:11px; }.record-controls button { height:38px; padding:0 12px; border:1px solid #d3dad5; border-radius:7px; background:#fff; color:#526159; font-size:10px; font-weight:800; }
+.data-table-wrap { max-height:360px; overflow:auto; }.data-table-wrap table { width:100%; border-collapse:collapse; }.data-table-wrap th { position:sticky; top:0; z-index:1; padding:10px 14px; border-bottom:1px solid #dde4df; background:#f4f6f3; color:#718078; text-align:left; font-size:8px; letter-spacing:.7px; text-transform:uppercase; }.data-table-wrap td { padding:11px 14px; border-bottom:1px solid #edf0ed; font-size:11px; }.data-table-wrap td small { display:block; margin-top:2px; color:#86928c; }.status-pill { display:inline-block; padding:6px 8px; border-radius:99px; background:#e7f1e9; color:#315f43; font-size:8px; font-weight:900; text-transform:uppercase; }.status-pill.cancelled { background:#f7e4df; color:#a3412e; }.records-card footer { display:flex; justify-content:space-between; padding:11px 22px; border-top:1px solid #e0e5e1; background:#f6f8f6; color:#718078; font-size:9px; }
+.cancelled-office-card { margin-top:17px; border-color:#e4c9c3; }.cancelled-office-card .records-titlebar { background:#fffaf8; }.cancelled-count { padding:7px 10px; border-radius:99px; background:#f7e4df; color:#a3412e; font-size:9px; font-weight:900; text-transform:uppercase; }
+.taxi-search-card { margin-bottom:17px; }.taxi-search-card .records-titlebar { align-items:center; }.taxi-search-controls input { min-width:220px; }.taxi-metrics { grid-template-columns:repeat(4,1fr); }.source-pill { display:inline-block; padding:5px 8px; border-radius:6px; background:#e8eee9; color:#365a49; font-size:8px; font-weight:900; text-transform:uppercase; }.source-pill.rank { background:#eef0df; color:#60672d; }
+
+/* Dark styling shared by both desktop office screens */
+.dark-mode .source-tabs { border-color:#294038; background:#0b1713; }
+.dark-mode .source-tabs button { color:#9baca3; }
+.dark-mode .source-tabs button:hover { background:#14261f; color:#fff; }
+.dark-mode .source-tabs button.active { border-color:#3e594d; background:#193027; color:#fff; box-shadow:none; }
+.dark-mode .source-tabs i { border-color:#3a5147; background:#10211b; color:#a9bbb2; }
+.dark-mode .source-tabs button.active i { border-color:#f5a916; background:#f5a916; color:#11231c; }
+.dark-mode .source-tabs small,.dark-mode .source-tabs button.active small { color:#899c92; }
+.dark-mode .fleet-data-card,.dark-mode .data-metrics article,.dark-mode .ranking-card,.dark-mode .records-card { border-color:#263b33; background:#0f1e19; box-shadow:0 14px 35px rgba(0,0,0,.2); }
+.dark-mode .fleet-data-heading,.dark-mode .ranking-card header,.dark-mode .records-titlebar { border-color:#294038; }
+.dark-mode .fleet-data-heading h2,.dark-mode .ranking-card h2,.dark-mode .records-titlebar h2 { color:#f3f7f4; }
+.dark-mode .fleet-data-heading > div > p:last-child,.dark-mode .records-titlebar > div > p:last-child,.dark-mode .ranking-card header > span { color:#8fa198; }
+.dark-mode .fleet-data-counts span { background:#172921; color:#91a49a; }
+.dark-mode .fleet-data-counts b,.dark-mode .data-metrics strong { color:#f2f7f4; }
+.dark-mode .fleet-data-card footer,.dark-mode .records-card footer { border-color:#294038; background:#0b1713; color:#81938a; }
+.dark-mode .data-metrics span,.dark-mode .data-metrics small { color:#8fa198; }
+.dark-mode .data-metrics .cancelled-metric { border-color:#69463e; background:#261915; }
+.dark-mode .cancelled-metric strong { color:#ff9f89; }
+.dark-mode .ranking-row,.dark-mode .data-table-wrap td { border-color:#21342c; }
+.dark-mode .ranking-bar { background:#263931; }
+.dark-mode .ranking-bar i { background:#78a78e; }
+.dark-mode .data-table-wrap th { border-color:#294038; background:#0b1713; color:#84978d; }
+.dark-mode .data-table-wrap td small { color:#81938a; }
+.dark-mode .record-controls label { color:#91a199; }
+.dark-mode .record-controls input,.dark-mode .record-controls select,.dark-mode .record-controls button { border-color:#31483e; background:#13261f; color:#edf4ef; }
+.dark-mode .cancelled-office-card { border-color:#69463e; }
+.dark-mode .cancelled-office-card .records-titlebar { background:#261915; }
+.dark-mode .cancelled-count { background:#4a2922; color:#ffad99; }
+.dark-mode .source-pill { background:#1d3a2e; color:#9ec6b1; }.dark-mode .source-pill.rank { background:#3a3b20; color:#d6d89a; }
+
+@media (max-width:1050px) { .source-tabs { width:100%; overflow-x:auto; }.source-tabs button { min-width:220px; }.taxi-search-card .records-titlebar { align-items:flex-start; flex-direction:column; }.taxi-search-controls { width:100%; }.taxi-search-controls label { flex:1; }.taxi-search-controls input { width:100%; min-width:0; } }
+@media (max-width:720px) { .taxi-metrics { grid-template-columns:repeat(2,1fr); }.ranking-grid.two-up { grid-template-columns:1fr; } }

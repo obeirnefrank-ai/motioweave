@@ -1,0 +1,38 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+
+test('office can attach a message and the driver can open it',()=>{
+  const operationsHtml=readFileSync(new URL('../public/rankflow/operations.html',import.meta.url),'utf8');
+  const operationsJs=readFileSync(new URL('../public/rankflow/operations.js',import.meta.url),'utf8');
+  const operationsCss=readFileSync(new URL('../public/rankflow/operations.css',import.meta.url),'utf8');
+  const driverHtml=readFileSync(new URL('../public/rankflow/driver.html',import.meta.url),'utf8');
+  const driverJs=readFileSync(new URL('../public/rankflow/driver.js',import.meta.url),'utf8');
+  const dataHtml=readFileSync(new URL('../public/rankflow/data.html',import.meta.url),'utf8');
+  const marshalHtml=readFileSync(new URL('../public/rankflow/index.html',import.meta.url),'utf8');
+  const sharedThemeJs=readFileSync(new URL('../public/rankflow/shared-theme.js',import.meta.url),'utf8');
+  assert.match(operationsHtml,/name="jobMessage"[^>]*maxlength="500"/);
+  assert.match(operationsHtml,/assets\/motion-weave-logo-orange-black\.png/);
+  assert.match(dataHtml,/assets\/motion-weave-logo-orange-black\.png/);
+  assert.match(marshalHtml,/assets\/motion-weave-logo-orange-black\.png/);
+  assert.match(driverHtml,/assets\/motion-weave-logo-orange-black\.png/);
+  assert.match(dataHtml,/data-theme-toggle/);
+  assert.match(marshalHtml,/data-theme-toggle/);
+  assert.match(driverHtml,/data-theme-toggle/);
+  assert.match(sharedThemeJs,/motion-weave-shared-theme/);
+  assert.match(sharedThemeJs,/Light screen.*Dark screen/s);
+  assert.match(operationsHtml,/id="theme-toggle"/);
+  assert.match(operationsJs,/motion-weave-operations-theme/);
+  assert.match(operationsJs,/Light screen.*Dark screen/s);
+  assert.match(operationsCss,/\.side-rail\s*\{[^}]*background:#f7f8f6/);
+  assert.match(operationsCss,/\.dark-mode \.side-rail\s*\{[^}]*background:#071813/);
+  assert.match(operationsHtml,/id="other-destination-field">Other drop-off[\s\S]*optional/);
+  assert.match(operationsHtml,/id="job-pickup-time"[^>]*name="pickupTime"/);
+  assert.match(operationsJs,/minutes\+=5/);
+  assert.match(operationsJs,/destination\s*=\s*otherDestination\s*\|\|/);
+  assert.match(operationsJs,/jobMessage.*JSON\.stringify\([^)]*jobMessage/s);
+  assert.match(driverHtml,/id="job-message-button"/);
+  assert.match(driverHtml,/id="job-message-dialog"/);
+  assert.match(driverJs,/serverDriver\?\.jobMessage/);
+  assert.match(driverJs,/job-message-dialog.*showModal/s);
+});

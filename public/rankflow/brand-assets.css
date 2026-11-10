@@ -1,0 +1,21 @@
+.event-branding {
+  padding-top: 30px;
+  margin-bottom: 30px;
+}
+
+.event-branding .eyebrow { margin: 0; }
+
+.event-london-taxis {
+  display: inline-block;
+  margin: 0 0 8px;
+  color: #ec8d00;
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 900;
+  line-height: 1.01;
+  letter-spacing: -3px;
+}
+
+@media (max-width: 500px) {
+  .event-branding { padding-top: 18px; margin-bottom: 22px; }
+  .event-london-taxis { margin-bottom: 8px; font-size: 38px; letter-spacing: -2px; }
+}

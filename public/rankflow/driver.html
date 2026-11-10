@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#071b16" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="stylesheet" href="./driver.css?v=shared-logo-1" />
+    <link rel="stylesheet" href="./shared-theme.css?v=shared-theme-1" />
+    <link id="driver-manifest" rel="manifest" href="./driver-manifest.webmanifest?v=phone-invite-12" />
+    <script>const installInvite=new URLSearchParams(location.search).get('install');if(/^[a-f0-9]{48}$/.test(installInvite||''))document.querySelector('#driver-manifest').href=`/api/driver-install-manifest/${encodeURIComponent(installInvite)}`;</script>
+    <title>Motion Weave — Driver App</title>
+  </head>
+  <body>
+    <main class="phone-app">
+      <header>
+        <div class="driver-brand-row"><div class="brand"><img src="./assets/motion-weave-logo-orange-black.png" alt="Motion Weave" /></div><button class="app-theme-toggle" data-theme-toggle type="button" aria-pressed="true"><span aria-hidden="true">◐</span><b>Light screen</b></button></div>
+        <p class="eyebrow">DRIVER APP</p>
+        <div class="driver-header-meta">
+          <button id="profile-button" class="profile-button" type="button">Driver details</button>
+          <div class="compact-status">
+            <span>CURRENT STATUS</span>
+            <strong><i id="status-icon" class="status-icon" aria-hidden="true"></i><b id="status-text">Off shift</b></strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="card job-card">
+        <p class="eyebrow">YOUR CURRENT JOB</p>
+        <p id="job-waiting" class="job-waiting">No job assigned yet.</p>
+        <div id="job-details" hidden>
+          <div class="job-location">
+            <span>PICKUP POINT</span>
+            <h2 id="pickup-point">Paddock Club</h2>
+          </div>
+          <div id="pickup-time-card" class="job-contact pickup-time-card" hidden><span>PICKUP TIME</span><strong id="pickup-time">14:30</strong></div>
+          <div class="job-contact"><span>PASSENGER / CONTACT</span><strong id="contact-name">N/A</strong></div>
+          <div class="job-passengers">
+            <label for="passenger-count">NUMBER OF PASSENGERS</label>
+            <select id="passenger-count">
+              <option value="1">1 passenger</option>
+              <option value="2">2 passengers</option>
+              <option value="3">3 passengers</option>
+              <option value="4">4 passengers</option>
+              <option value="5">5 passengers</option>
+              <option value="6">6 passengers</option>
+            </select>
+          </div>
+          <div class="journey-divider"><i></i><span>TO</span><i></i></div>
+          <div class="job-location destination-location">
+            <span>DESTINATION</span>
+            <h2 id="destination-point">Helipad</h2>
+          </div>
+          <button id="job-message-button" class="job-message-action" type="button" hidden><span aria-hidden="true">✉</span><strong>Message from Drive Office</strong><small>Open message</small></button>
+          <button id="dropoff-button" class="primary-action pickup-action" type="button">Acknowledge job <span>→</span></button>
+          <button id="job-cancelled-button" class="job-cancelled-action" type="button">Job Cancelled</button>
+          <p id="job-progress" class="job-waiting" aria-live="polite">Acknowledge this job before travelling to the pickup.</p>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button id="availability-button" class="primary-action" type="button">Check in and go available</button>
+      </div>
+      <section id="invite-card" class="phone-setup-card" hidden>
+        <p class="eyebrow">PRIVATE DRIVER INVITATION</p>
+        <h2 id="invite-driver-name">Driver ready</h2>
+        <p>Taxi <strong id="invite-taxi-number"></strong> is already set up. This private link stays usable for seven days and can be reopened in Safari.</p>
+        <button id="connect-invite-button" class="primary-action" type="button">Connect this phone</button>
+        <p id="invite-error" class="setup-error" role="alert"></p>
+      </section>
+      <section id="install-card" class="phone-setup-card" hidden>
+        <p class="eyebrow">PHONE CONNECTED</p>
+        <h2>Add to Home Screen</h2>
+        <p>On iPhone, tap <strong>Share</strong> in Safari, then tap <strong>Add to Home Screen</strong>. On Android, use Chrome’s menu and choose <strong>Add to Home screen</strong>. The text link will continue working for seven days.</p>
+        <button id="install-app-button" class="primary-action" type="button" hidden>Add app to Home Screen</button>
+      </section>
+      <button id="sample-job-button" class="quiet-action" type="button" hidden>Show a sample job</button>
+      <div id="driver-toast" class="driver-toast" role="status" aria-live="polite"></div>
+
+      <section class="job-alerts"><div><button id="enable-job-alerts" class="quiet-action" type="button" disabled>Turn on job alerts</button><button id="test-job-alerts" class="quiet-action" type="button" hidden>Test alert</button></div><p id="job-alerts-note" role="status">Preparing phone alerts…</p></section>
+    </main>
+
+    <dialog id="job-message-dialog" class="job-message-dialog">
+      <article>
+        <p class="eyebrow">MESSAGE FROM DRIVE OFFICE</p>
+        <h2>Job message</h2>
+        <p id="job-message-text" class="job-message-text"></p>
+        <button id="close-job-message" class="primary-action" type="button">Close message</button>
+      </article>
+    </dialog>
+    <dialog id="details-dialog">
+      <form id="details-form">
+        <p class="eyebrow">DRIVER DETAILS</p>
+        <h2 id="details-title">Set up this phone</h2>
+        <p id="invite-details-note" class="invite-details-note" hidden>This invitation connects your phone to the dashboard. You will start Off shift.</p>
+        <label for="driver-name">Driver name</label>
+        <input id="driver-name" name="name" autocomplete="name" maxlength="60" required />
+        <label for="taxi-number">Two-digit taxi number</label>
+        <input id="taxi-number" name="taxiNumber" inputmode="numeric" maxlength="2" placeholder="00" required />
+        <button id="save-driver-details" class="primary-action" type="submit">Save details</button>
+        <button id="cancel-button" class="quiet-action" type="button">Cancel</button>
+      </form>
+    </dialog>
+    <script src="./shared-theme.js?v=shared-theme-1"></script><script src="./access.js?v=phone-invite-9"></script><script src="./driver.js?v=job-message-1"></script>
+  <script src="./driver-alerts.js?v=phone-invite-13"></script>
+  <script src="./admin-link.js?v=admin-1"></script></body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#071813" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <script>if (location.protocol === 'file:') document.documentElement.classList.add('ipad-preview');</script>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./polish.css" />
+    <link rel="stylesheet" href="./form-controls.css" />
+    <link rel="stylesheet" href="./marshal-login.css" />
+    <link rel="stylesheet" href="./brand-assets.css" />
+    <link rel="stylesheet" href="./ltda-theme.css" />
+    <link rel="stylesheet" href="./taxi-keypad.css" />
+    
+    <link rel="stylesheet" href="./cancelled-jobs.css" />
+    <link rel="stylesheet" href="./marshal-theme.css?v=shared-theme-11" />
+    <link rel="stylesheet" href="./shared-theme.css?v=shared-theme-1" />
+    <title>Motion Weave — Event Taxi Operations</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./operations.html" aria-label="Motion Weave — back to operations dashboard"><img class="brand-logo" src="./assets/motion-weave-logo-orange-black.png" alt="Motion Weave" /></a>
+        <span class="app-area-label">Marshal app</span>
+        <button class="app-theme-toggle" data-theme-toggle type="button" aria-pressed="true"><span aria-hidden="true">◐</span><b>Light screen</b></button>
+        <button id="marshal-profile" class="marshal-profile" type="button" hidden></button>
+        <div id="connection-chip" class="event-chip"><span class="live-dot"></span><span id="connection-label">CONNECTING</span></div>
+      </header>
+
+      <section id="welcome" class="view welcome-view">
+        <div class="welcome-copy">
+          <div class="event-branding">
+            <p class="event-london-taxis">Event London Taxis</p>
+            <p class="eyebrow">PRIVATE EVENT OPERATIONS</p>
+          </div>
+          <h1>Keep every taxi moving.</h1>
+          <p class="lead">A fast, simple departure log for event marshals.</p>
+          <div class="welcome-actions">
+            <details id="quick-rank-picker" class="quick-rank-picker">
+              <summary class="button primary">Start marshal entry <span>Choose a point&nbsp; +</span></summary>
+              <div class="picker-content">
+                <div class="picker-heading"><div><p class="eyebrow">SELECT YOUR POINT</p><h2>Where are you marshalling?</h2></div></div>
+                <p>Choose one taxiway point to open its departure log.</p>
+                <div class="quick-rank-grid" id="quick-rank-options">
+                  <button type="button" class="quick-rank-option" data-quick-rank="Helipad">Helipad</button>
+                  <button type="button" class="quick-rank-option" data-quick-rank="Paddock">Paddock</button>
+                  <button type="button" class="quick-rank-option" data-quick-rank="Paddock Club">Paddock Club</button>
+                  <button type="button" class="quick-rank-option" data-quick-rank="Main Gate">Main Gate</button>
+                  <button type="button" class="quick-rank-option" data-quick-rank="Fusion Lounge">Fusion Lounge</button>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+        <aside class="welcome-panel">
+          <p class="eyebrow">TODAY AT A GLANCE</p>
+          <div class="active-rank"><span>YOUR ACTIVE RANK</span><strong id="active-rank-label">Choose a rank</strong></div>
+          <div class="hero-stat"><strong id="hero-total">0</strong><span>taxis dispatched</span></div>
+          <div class="mini-stats"><span><b id="hero-passengers">0</b> passengers moved</span><span><b id="hero-ranks">0</b> active ranks</span></div>
+        </aside>
+      </section>
+
+      <section id="marshal" class="view marshal-view" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow">MARSHAL ENTRY</p><h1>Log a taxi departure</h1></div>
+          <button class="text-button" id="change-rank">Change rank</button>
+        </div>
+        <div class="marshal-layout">
+          <form id="departure-form" class="entry-card">
+            <div class="rank-banner"><span>YOUR RANK</span><strong id="selected-rank-label">Choose a rank</strong></div>
+            <div class="form-section">
+              <label for="destination">Destination <span>required</span></label>
+              <select id="destination" name="destination" required>
+                <option value="" selected disabled>Choose a drop-off location</option>
+                <option>Helipad</option>
+                <option>Main Gate</option>
+                <option>Main Stage</option>
+                <option>Paddock</option>
+                <option>Paddock Club</option>
+                <option>Car Park 47</option>
+                <option>Cops</option>
+                <option>Tunnel</option>
+                <option>Escapade</option>
+                <option>Ignition</option>
+                <option>Fusion</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-grid">
+              <fieldset>
+                <legend>Passengers</legend>
+                <div class="passenger-options" role="group" aria-label="Passenger count">
+                  <button type="button" data-passenger-count="1" class="selected" aria-pressed="true">1</button>
+                  <button type="button" data-passenger-count="2" aria-pressed="false">2</button>
+                  <button type="button" data-passenger-count="3" aria-pressed="false">3</button>
+                  <button type="button" data-passenger-count="4" aria-pressed="false">4</button>
+                  <button type="button" data-passenger-count="5" aria-pressed="false">5</button>
+                  <button type="button" data-passenger-count="6" aria-pressed="false">6</button>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Taxi number</legend>
+                <div class="taxi-number-entry"><input id="taxi-number" name="taxiNumber" inputmode="numeric" pattern="[0-9]{2}" maxlength="2" placeholder="00" aria-label="Two digit taxi number" aria-describedby="taxi-status" autocomplete="off" required /><button id="next-taxi" type="button">Next taxi</button></div>
+                <button id="open-taxi-keypad" class="open-taxi-keypad" type="button">Use on-screen keypad</button>
+                <p id="taxi-status" class="taxi-status" role="status">Enter the next taxi number.</p>
+                <div id="taxi-keypad" class="taxi-keypad" hidden aria-label="Taxi number keypad">
+                  <div class="keypad-heading"><span>Enter two-digit taxi number</span></div>
+                  <div class="keypad-grid">
+                    <button type="button" data-key="1">1</button><button type="button" data-key="2">2</button><button type="button" data-key="3">3</button>
+                    <button type="button" data-key="4">4</button><button type="button" data-key="5">5</button><button type="button" data-key="6">6</button>
+                    <button type="button" data-key="7">7</button><button type="button" data-key="8">8</button><button type="button" data-key="9">9</button>
+                    <button type="button" class="keypad-delete" data-key="delete" aria-label="Delete last digit">⌫</button><button type="button" data-key="0">0</button><button type="button" class="keypad-clear" data-key="clear">Clear</button>
+                  </div>
+                  <button type="button" id="keypad-done" class="keypad-enter">Enter taxi number <span>→</span></button>
+                </div>
+              </fieldset>
+            </div>
+            <button class="button primary submit-button" type="submit">Send onboard job <span>→</span></button>
+          </form>
+          <aside class="recent-card">
+            <div class="card-heading"><div><p class="eyebrow">YOUR RANK</p><h2>Onboard &amp; left</h2></div><span id="rank-total" class="count-pill">0 out</span></div>
+            <div id="recent-list" class="recent-list"><p class="empty-state">Your logged taxis will appear here.</p></div>
+          </aside>
+        </div>
+      </section>
+
+    </main>
+
+    <dialog id="rank-dialog"><form method="dialog" class="dialog-card"><p class="eyebrow">SET UP</p><h2>Which rank are you staffing?</h2><p class="dialog-copy">This stays on this device until you change it.</p><div id="rank-options" class="rank-options"></div><button class="button secondary" value="cancel">Cancel</button></form></dialog>
+    <dialog id="marshal-login"><form id="marshal-login-form" class="dialog-card"><p class="eyebrow">MARSHAL DETAILS</p><h2>Marshal details</h2><p class="dialog-copy">Your name will be automatically added to every departure logged during this session.</p><label class="login-label" for="marshal-login-name">Marshal name</label><input id="marshal-login-name" type="text" autocomplete="name" placeholder="Enter your name" maxlength="40" required /><button class="button primary login-button" type="submit">Save details&nbsp; →</button></form></dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="./shared-theme.js?v=shared-theme-1"></script><script src="./app.js?v=next-taxi-1"></script>
+  </body>
+</html>

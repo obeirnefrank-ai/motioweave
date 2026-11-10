@@ -1,0 +1,78 @@
+:root { font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:#fff9ea; background:#ece9e3; }
+* { box-sizing:border-box; } body { margin:0; min-width:320px; background:#ece9e3; }
+button,input { font:inherit; } button { cursor:pointer; }
+.invite-details-note { margin:8px 0 18px; color:#bdc9c0; font-size:14px; line-height:1.5; }
+.phone-app { width:min(100%, 450px); min-height:100vh; margin:auto; padding:calc(32px + env(safe-area-inset-top)) 22px calc(20px + env(safe-area-inset-bottom)); display:flex; flex-direction:column; background:radial-gradient(circle at 82% 6%, #1d4435 0, #0b211a 41%, #071813 100%); }
+.brand { margin:0 0 14px; }.brand img { display:block; width:min(132px,38vw); height:auto; border-radius:12px; box-shadow:0 10px 24px rgba(0,0,0,.28); }.eyebrow { margin:0; color:#f7a91b; font-size:11px; font-weight:800; letter-spacing:2px; }.profile-button,.quiet-action { border:0; padding:0; background:transparent; color:#f7a91b; font-size:12px; font-weight:750; text-decoration:underline; text-underline-offset:4px; }.profile-button { color:#fff9ea; font-size:15px; font-weight:850; text-align:left; }
+.driver-brand-row { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }.driver-brand-row .brand { margin-bottom:14px; }.driver-brand-row .app-theme-toggle { margin-top:2px; }
+.driver-header-meta { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-top:17px; }
+.compact-status { display:grid; justify-items:end; gap:5px; }
+.compact-status > span { color:#9eafa5; font-size:8px; font-weight:850; letter-spacing:1.2px; }
+.compact-status strong { display:flex; align-items:center; gap:7px; color:#fff9ea; font-size:13px; }
+.compact-status strong b { font-weight:800; }
+.compact-status .status-icon { width:9px; height:9px; border:0; box-shadow:none; background:#7d8e7a; }
+.compact-status .status-icon.available { border:0; box-shadow:none; background:#8dbd3e; }
+.compact-status .status-icon.break { border:0; box-shadow:none; background:#f7a91b; }
+.compact-status .status-icon.busy { border:0; box-shadow:none; background:#f7a91b; }
+.card { margin-top:19px; padding:23px 20px; border:1px solid rgba(207,218,196,.23); border-radius:20px; background:rgba(13,38,30,.8); box-shadow:0 18px 36px rgba(0,0,0,.19); }.status-row { display:flex; align-items:center; gap:16px; margin-top:12px; }.status-icon { width:38px; height:38px; flex:0 0 auto; border:2px solid #7d8e7a; border-radius:50%; }.status-icon.available { border-color:#8dbd3e; box-shadow:inset 0 0 0 8px #183c2d; background:#8dbd3e; }.status-icon.break { border-color:#f7a91b; box-shadow:inset 0 0 0 8px #183c2d; background:#f7a91b; } h1,h2 { margin:0; font-family:Georgia, "Times New Roman", serif; font-weight:500; letter-spacing:-1px; } h1 { font-size:28px; line-height:1.05; } .job-card h2 { margin-top:13px; font-size:32px; line-height:1.08; }.route-line { display:flex; align-items:center; gap:9px; margin-top:21px; color:#bdc9c0; font-size:11px; }.route-line i { display:block; height:2px; flex:1; background:#f7a91b; border-radius:3px; }
+.primary-action,.secondary-action { width:100%; min-height:61px; border-radius:14px; border:0; padding:14px 17px; font-size:17px; font-weight:850; }.primary-action { display:flex; justify-content:center; align-items:center; gap:12px; background:#f7a91b; color:#10261f; }.primary-action span { display:grid; place-items:center; width:25px; height:25px; border-radius:50%; background:#10261f; color:#fff; }.actions { display:grid; gap:10px; margin-top:18px; }.secondary-action { border:1px solid rgba(207,218,196,.3); background:transparent; color:#fff9ea; }.quiet-action { align-self:center; margin-top:17px; }.phone-app nav { display:flex; justify-content:space-around; gap:12px; margin-top:auto; padding:35px 0 6px; color:#bbc7bd; font-size:12px; }.phone-app nav span { display:grid; gap:6px; place-items:center; }.phone-app nav span::before { content:'○'; font-size:20px; line-height:1; }.phone-app nav .selected { color:#f7a91b; }.phone-app nav .selected::before { content:'●'; }
+.job-waiting { margin:16px 0 0; color:#bdc9c0; font-size:14px; }
+.driver-toast { position:fixed; left:50%; bottom:24px; z-index:20; max-width:calc(100vw - 32px); padding:12px 16px; border-radius:12px; background:#f5f0df; color:#102b22; font-weight:700; opacity:0; pointer-events:none; transform:translate(-50%,12px); transition:.2s ease; box-shadow:0 12px 32px rgba(0,0,0,.3); }
+.driver-toast.visible { opacity:1; transform:translate(-50%,0); }
+.job-location { margin-top:20px; }
+.job-location > span { color:#aebdb3; font-size:10px; font-weight:800; letter-spacing:1.6px; }
+.job-location h2 { margin-top:7px; font-size:31px; }
+.destination-location { margin-top:0; }
+.pickup-time-card strong { color:#fff9ea; font-family:Georgia,"Times New Roman",serif; font-size:27px; font-weight:500; }
+.journey-divider { display:flex; align-items:center; gap:9px; margin:17px 0; color:#f7a91b; font-size:9px; font-weight:900; letter-spacing:1px; }
+.journey-divider i { height:1px; flex:1; background:rgba(247,169,27,.45); }
+.job-card .primary-action { margin-top:22px; }
+.job-message-action { display:grid; grid-template-columns:34px 1fr auto; align-items:center; gap:11px; width:100%; min-height:64px; margin-top:20px; padding:11px 14px; border:1px solid rgba(247,169,27,.48); border-radius:13px; background:rgba(247,169,27,.1); color:#fff9ea; text-align:left; }
+.job-message-action > span { display:grid; width:34px; height:34px; place-items:center; border-radius:50%; background:#f7a91b; color:#10261f; font-size:17px; }
+.job-message-action strong { font-size:14px; }
+.job-message-action small { color:#f7a91b; font-size:11px; font-weight:850; }
+.job-message-dialog article { display:grid; gap:13px; padding:28px; }
+.job-message-dialog h2 { margin:0; font-size:30px; }
+.job-message-text { max-height:42vh; margin:2px 0 8px; overflow:auto; color:#253a32; font-size:17px; line-height:1.55; white-space:pre-wrap; overflow-wrap:anywhere; }
+.job-message-dialog .primary-action { min-height:52px; }
+.job-card .pickup-action { background:#59b85b; color:#071b16; }
+.job-card .dropoff-action { background:#f08b1d; color:#071b16; }
+.job-cancelled-action { width:100%; min-height:48px; margin-top:10px; border:1px solid #d86555; border-radius:12px; background:transparent; color:#ffb3a8; font-size:14px; font-weight:850; }
+.job-cancelled-action:hover { background:#742f27; color:#fff; }
+.job-contact { display:grid; gap:7px; margin-top:21px; padding-top:17px; border-top:1px solid rgba(207,218,196,.18); }.job-contact span { color:#f7a91b; font-size:12px; font-weight:850; letter-spacing:1.7px; }.job-contact strong { color:#fff9ea; font-family:Georgia, "Times New Roman", serif; font-size:31px; line-height:1.05; font-weight:500; }
+.job-passengers { display:grid; gap:8px; margin-top:18px; }
+.job-passengers label { color:#aebdb3; font-size:10px; font-weight:850; letter-spacing:1.5px; }
+.job-passengers select { width:100%; min-height:48px; padding:0 13px; border:1px solid rgba(207,218,196,.3); border-radius:11px; outline:0; background:#102d23; color:#fff9ea; font:inherit; font-size:15px; font-weight:750; }
+.job-passengers select:focus { border-color:#f7a91b; box-shadow:0 0 0 3px rgba(247,169,27,.14); }
+dialog { width:min(420px, calc(100vw - 32px)); border:0; border-radius:20px; padding:0; background:#fff9ef; color:#10261f; box-shadow:0 24px 70px rgba(0,0,0,.34); } dialog::backdrop { background:rgba(0,0,0,.55); } form { display:grid; gap:12px; padding:27px; } form h2 { font-size:29px; margin:0 0 8px; } form label { font-size:13px; font-weight:800; } form input { width:100%; border:1px solid #ccd4cc; border-radius:10px; padding:13px; color:#10261f; background:white; } form .primary-action { margin-top:6px; } form .quiet-action { color:#385c4e; }
+@media (min-width:451px) { .phone-app { min-height:calc(100vh - 48px); margin:24px auto; border:8px solid #171917; border-radius:42px; box-shadow:0 24px 60px rgba(0,0,0,.25); overflow:hidden; } }
+
+[hidden] { display:none !important; }
+.job-card .accepted-action { background:transparent; border:2px solid #59b85b; color:#8ddd8f; }
+.job-card .accepted-action span { background:transparent; color:inherit; }
+button:disabled { cursor:not-allowed; opacity:.65; }
+
+.job-alerts { margin-top:20px; padding:16px; border:1px solid #385045; border-radius:12px; background:#0f1e19; } .job-alerts > div { display:flex; flex-wrap:wrap; gap:18px; }.job-alerts button { min-height:44px; margin-top:0; font-size:16px; } .job-alerts p { color:#a7b8af; font-size:14px; line-height:1.5; margin:8px 0 0; }
+.phone-setup-card { margin-top:18px; padding:20px; border:1px solid rgba(247,169,27,.55); border-radius:16px; background:#102d23; }
+.phone-setup-card h2 { margin-top:9px; font-size:25px; }
+.phone-setup-card > p:not(.eyebrow) { margin:10px 0 0; color:#d2ddd6; font-size:15px; line-height:1.55; }
+.phone-setup-card .primary-action { min-height:50px; margin-top:16px; font-size:15px; }
+.phone-setup-card .setup-error { color:#ffb3a8; font-weight:750; }
+
+/* Light Driver workspace */
+body.light-mode { color-scheme:light; background:#ece9e3; color:#10261f; }
+.light-mode .phone-app { background:linear-gradient(160deg,#f9faf7 0,#edf2ee 100%); color:#10261f; }
+.light-mode .profile-button { color:#174b37; }
+.light-mode .compact-status > span,.light-mode .job-waiting,.light-mode .job-location > span,.light-mode .job-passengers label { color:#6d7b74; }
+.light-mode .compact-status strong,.light-mode .pickup-time-card strong,.light-mode .job-contact strong { color:#10261f; }
+.light-mode .card { border-color:#d1dad4; background:#fff; box-shadow:0 16px 34px rgba(15,37,29,.09); }
+.light-mode .secondary-action { border-color:#aebcb4; color:#174b37; }
+.light-mode .job-message-action { border-color:#e1ad54; background:#fff5df; color:#10261f; }
+.light-mode .job-cancelled-action { border-color:#c85b49; color:#a53e28; }
+.light-mode .job-contact { border-color:#dce3de; }
+.light-mode .job-passengers select { border-color:#c6d1ca; background:#fff; color:#10261f; }
+.light-mode .job-alerts { border-color:#d1dad4; background:#fff; }
+.light-mode .job-alerts p { color:#6d7b74; }
+.light-mode .phone-setup-card { border-color:#e1ad54; background:#fff8e8; }
+.light-mode .phone-setup-card > p:not(.eyebrow) { color:#526159; }
+@media (min-width:451px) { body.light-mode .phone-app { border-color:#d6d8d3; } }

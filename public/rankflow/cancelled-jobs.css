@@ -1,0 +1,11 @@
+.recent-actions { display:grid; justify-items:end; gap:5px; }
+.row-action { border:0; background:transparent; color:var(--forest); padding:3px 0; font-size:12px; font-weight:800; }
+.cancelled-card { margin-top:25px; padding:25px; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+.cancelled-list { margin-top:14px; }
+.cancelled-item { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:15px 0; border-top:1px solid var(--line); }
+.cancelled-item strong,.cancelled-item small { display:block; }
+.cancelled-item small { margin-top:4px; color:var(--muted); font-size:12px; }
+.cancelled-item.collected { opacity:.58; }
+.cancelled-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:14px; }
+.collect-action { color:var(--red); }
+@media (max-width:600px) { .cancelled-item { align-items:flex-start; flex-direction:column; } .cancelled-actions { justify-content:flex-start; } }

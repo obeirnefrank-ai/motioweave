@@ -1,0 +1,4 @@
+.marshal-profile { border:1px solid #b9d7c1; background:#f1f8f1; color:#164c3a; border-radius:999px; padding:7px 10px; font-size:12px; font-weight:750; }
+.login-label { display:block; font-size:14px; font-weight:800; margin:22px 0 9px; }
+.login-button { width:100%; margin-top:18px; }
+@media (max-width:800px) { .marshal-profile { margin-left:auto; }.event-chip { display:none; } }

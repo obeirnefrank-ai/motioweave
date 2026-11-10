@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#071813" />
+    <link rel="stylesheet" href="./operations.css?v=dashboard-theme-3" />
+    <title>Motion Weave Control — Available Taxi Queue</title>
+  </head>
+  <body class="dark-mode">
+    <aside class="side-rail">
+      <a class="ops-brand" href="./operations.html" aria-label="Motion Weave Drive Office"><img src="./assets/motion-weave-logo-orange-black.png" alt="Motion Weave" /></a>
+      <nav aria-label="Operations navigation">
+        <a class="active" href="./operations.html"><i>O</i><span>Drive Office</span></a>
+        <a href="./data.html"><i>↗</i><span>Job Data</span></a>
+        <a href="./index.html#marshal"><i>M</i><span>Marshal app</span></a>
+        <a href="./driver.html"><i>D</i><span>Driver app</span></a>
+      </nav>
+      <div class="rail-foot"><span class="signal"></span><div><strong id="connection-text">Connecting</strong><small>Fleet server</small></div></div>
+    </aside>
+
+    <main class="desktop-main">
+      <header class="desktop-header">
+        <div><p class="kicker">LIVE FLEET CONTROL</p><h1>Available taxi queue</h1><p id="operations-date">Oldest waiting taxi is always first</p></div>
+        <div class="header-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="true"><span aria-hidden="true">◐</span><b>Light screen</b></button><button id="invite-driver-button" class="add-driver-button" type="button">Invite driver by phone</button><button id="event-password-button" class="event-password-button" type="button" hidden>Set driver event password</button><div class="operator"><span>OP</span><div><strong>Operations desk</strong><small>Control laptop</small></div></div></div>
+      </header>
+
+      <section class="summary-grid">
+        <button class="summary ready active" type="button" data-fleet-filter="ready"><span>Ready for work</span><strong id="available-count">0</strong><small>Ready at Drive Office</small></button>
+        <button class="summary" type="button" data-fleet-filter="busy"><span>On jobs / booked</span><strong id="busy-count">0</strong><small>View active jobs</small></button>
+        <button class="summary" type="button" data-fleet-filter="unavailable"><span>Break / offline</span><strong id="offline-count">0</strong><small>View unavailable taxis</small></button>
+        <button class="summary area-summary" type="button" data-fleet-filter="allocated"><span>Allocated areas</span><strong id="allocated-count">0</strong><small>View areas and taxi counts</small></button>
+        <button class="summary" type="button" data-fleet-filter="marshal" aria-controls="marshal-departures-card"><span>Marshal departures</span><strong id="marshal-live-count">0</strong><small>Passengers onboard</small></button>
+      </section>
+
+      <section class="queue-card">
+        <div class="queue-titlebar">
+          <div><p id="queue-kicker" class="kicker">NEXT TAXI FIRST</p><h2 id="queue-list-title">Longest waiting</h2><p id="queue-list-copy">Only free taxis ready to receive work are shown.</p></div>
+          <label><span>Search this category</span><input id="fleet-search" type="search" placeholder="Taxi number or driver name" autocomplete="off" /></label>
+        </div>
+        <div class="column-head"><span>Position</span><span>Taxi and driver</span><span>Available since</span><span>Waiting time</span><span>Action</span></div>
+        <div id="taxi-queue" class="taxi-queue"><p class="empty">No taxis currently available.</p></div>
+        <footer><span id="result-count">Showing 0 available taxis</span><span>Automatically ordered by waiting time</span></footer>
+      </section>
+      <section id="marshal-departures-card" class="marshal-departures-card" aria-labelledby="marshal-live-heading" hidden>
+        <div class="marshal-departures-heading"><p class="kicker">PASSENGERS ONBOARD</p><h2 id="marshal-live-heading">Marshal departures</h2><p>Departed taxis awaiting driver drop-off.</p></div>
+        <div id="marshal-live-list" class="marshal-live-list" aria-live="polite"><p class="marshal-live-empty">No taxis currently out.</p></div>
+      </section>
+    </main>
+    <dialog id="area-dialog">
+      <form id="area-form">
+        <header class="job-modal-header"><div><p class="kicker">DRIVER ROSTER</p><h2 id="area-dialog-title">Add driver</h2><p>Enter the driver and taxi details, then choose where they should appear.</p></div><button id="close-area-dialog" type="button" aria-label="Close">×</button></header>
+        <input name="driverId" type="hidden" />
+        <div class="area-fields">
+          <label>Driver full name<input name="driverName" required maxlength="120" autocomplete="name" placeholder="Enter the driver’s full name"></label>
+          <label>Taxi number<input name="taxiNumber" required inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="00" autocomplete="off"></label>
+          <label>Add driver to<select name="allocatedArea"><option value="">Ready for work — Drive Office</option><optgroup label="Allocated areas"><option>Heliport</option><option>Match/Hospitality</option><option>Motorsport UK</option><option>Directors</option><option>Main Stage</option><option>Mahiki</option><option>Paddock Club</option><option>F1</option><option>VIP Movement</option><option>Operations</option></optgroup></select></label>
+          <p>A taxi in <strong>Ready for work</strong> appears in the booking queue. A taxi assigned to an area is shown only inside that allocated area.</p>
+          <p id="area-form-error" class="form-error" role="alert"></p>
+        </div>
+        <div class="job-modal-actions"><button id="cancel-area" class="cancel-job" type="button">Cancel</button><button class="send-job" type="submit">Add driver</button></div>
+      </form>
+    </dialog>
+    <dialog id="invite-driver-dialog">
+      <form id="invite-driver-form">
+        <header class="job-modal-header"><div><p class="kicker">MOBILE DRIVER INVITE</p><h2>Invite a driver</h2><p>Create the driver as Off shift, then send their private app link by text message.</p></div><button id="close-invite-driver" type="button" aria-label="Close">×</button></header>
+        <div class="area-fields">
+          <label>Driver full name<input name="driverName" required maxlength="120" autocomplete="name" placeholder="Enter the driver’s full name"></label>
+          <label>Taxi number<input name="taxiNumber" required inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="00" autocomplete="off"></label>
+          <label>Mobile phone number<input name="phoneNumber" required type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="For example, 07700 900123" aria-controls="phone-keypad"></label>
+          <div id="phone-keypad" class="phone-keypad" aria-label="Phone number keypad" hidden>
+            <div class="phone-keypad-heading"><strong>Phone keypad</strong><div><button type="button" data-phone-key="clear">Clear</button><button type="button" data-phone-key="done">Done</button></div></div>
+            <div class="phone-keypad-grid">
+              <button type="button" data-phone-key="1">1</button><button type="button" data-phone-key="2">2</button><button type="button" data-phone-key="3">3</button>
+              <button type="button" data-phone-key="4">4</button><button type="button" data-phone-key="5">5</button><button type="button" data-phone-key="6">6</button>
+              <button type="button" data-phone-key="7">7</button><button type="button" data-phone-key="8">8</button><button type="button" data-phone-key="9">9</button>
+              <button type="button" data-phone-key="+" aria-label="Plus">+</button><button type="button" data-phone-key="0">0</button><button type="button" data-phone-key="backspace" aria-label="Delete last digit">⌫</button>
+            </div>
+          </div>
+          <p>The private link can be opened again for seven days, including in Safari when adding it to the Home Screen. The driver appears under <strong>Break / offline</strong> and must check in before receiving work.</p>
+          <p id="invite-driver-error" class="form-error" role="alert"></p>
+          <div id="invite-message-ready" class="invite-message-ready" hidden>
+            <strong>Invitation created</strong>
+            <p>Tap below to open the prepared text message. If your browser blocks it, the button remains here for another tap.</p>
+            <a id="open-invite-message" class="send-job" href="">Open text message</a>
+            <button id="copy-invite-link" class="cancel-job" type="button">Copy invite link</button>
+          </div>
+        </div>
+        <div class="job-modal-actions"><button id="cancel-invite-driver" class="cancel-job" type="button">Cancel</button><button class="send-job" type="submit">Create &amp; open message</button></div>
+      </form>
+    </dialog>
+    <dialog id="job-dialog">
+      <form id="job-form">
+        <header class="job-modal-header"><div><p class="kicker">NEW DRIVER JOB</p><h2>Send job to Taxi <span id="job-taxi-number">00</span></h2><p id="job-driver-name">Driver name</p><p id="job-alert-status" role="status"></p></div><button id="close-job-dialog" type="button" aria-label="Close">×</button></header>
+        <input id="job-driver-id" name="driverId" type="hidden" />
+        <div class="job-fields">
+          <label>Pickup point<select name="pickup" required><option value="">Choose pickup point</option><option>Helipad</option><option>Paddock</option><option>Paddock Club</option><option>Main Gate</option><option>Fusion Lounge</option><option>Other</option></select></label>
+          <label>Pickup time <span class="optional-label">optional</span><select id="job-pickup-time" name="pickupTime"><option value="">No set time</option></select></label>
+          <label>Destination<select id="job-destination" name="destination"><option value="">Choose drop-off location</option><option>Helipad</option><option>Main Gate</option><option>Main Stage</option><option>Paddock</option><option>Paddock Club</option><option>Car Park 47</option><option>Cops</option><option>Tunnel</option><option>Escapade</option><option>Ignition</option><option>Fusion</option><option>Fusion Lounge</option><option>North Entrance</option><option>South Entrance</option><option value="Other">Other</option></select></label>
+          <label id="other-destination-field">Other drop-off <span class="optional-label">optional</span><input id="other-destination" name="otherDestination" placeholder="Type another drop-off location" maxlength="80" /></label>
+          <label for="job-contact-name">Passenger name / contact<input id="job-contact-name" name="contactName" type="text" inputmode="text" autocomplete="off" placeholder="Type passenger name" maxlength="80" /></label>
+          <label>Passengers<select name="passengerCount"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
+          <label class="wide">Message to driver <span class="optional-label">optional</span><textarea name="jobMessage" maxlength="500" rows="4" placeholder="Write a message or instructions for the driver"></textarea><small class="field-help">The driver can open this message from the current job screen.</small></label>
+        </div>
+        <div class="job-modal-actions"><button id="cancel-job" class="cancel-job" type="button">Cancel</button><button class="send-job" type="submit">Send job to phone <span>→</span></button></div>
+      </form>
+    </dialog>
+    <dialog id="driver-actions-dialog">
+      <form id="driver-actions-form">
+        <header class="job-modal-header"><div><p class="kicker">DRIVER ACTIONS</p><h2>Taxi <span id="driver-actions-taxi">00</span></h2><p id="driver-actions-name">Driver name</p></div><button id="close-driver-actions" type="button" aria-label="Close">×</button></header>
+        <input name="driverId" type="hidden" />
+        <div class="driver-actions-body">
+          <div class="driver-actions-summary"><div><span>Current status</span><strong id="driver-actions-status">Ready for work</strong></div><div><span>Current location</span><strong id="driver-actions-location">Drive Office</strong></div></div>
+          <label>Move or change availability<select name="destination"><option value="ready">Ready for work — Drive Office</option><option value="break">On break</option><option value="offline">Off shift</option><optgroup label="Allocated areas"><option value="area:Heliport">Heliport</option><option value="area:Match/Hospitality">Match/Hospitality</option><option value="area:Motorsport UK">Motorsport UK</option><option value="area:Directors">Directors</option><option value="area:Main Stage">Main Stage</option><option value="area:Mahiki">Mahiki</option><option value="area:Paddock Club">Paddock Club</option><option value="area:F1">F1</option><option value="area:VIP Movement">VIP Movement</option><option value="area:Operations">Operations</option></optgroup></select></label>
+          <p id="driver-actions-note">Choose a new status or area, then apply the change.</p>
+          <p id="driver-actions-error" class="form-error" role="alert"></p>
+          <div class="driver-action-buttons"><button id="driver-action-edit" type="button">Edit details</button><button id="driver-action-assign" type="button">Assign job</button><button id="driver-action-export" type="button">Export all data</button><button id="driver-action-remove" class="driver-danger" type="button">Remove from dashboard</button></div>
+        </div>
+        <div class="job-modal-actions"><button id="cancel-driver-actions" class="cancel-job" type="button">Cancel</button><button id="apply-driver-action" class="send-job" type="submit">Apply change</button></div>
+      </form>
+    </dialog>
+    <dialog id="event-password-dialog">
+      <form id="event-password-form">
+        <header class="job-modal-header"><div><p class="kicker">ADMINISTRATOR ONLY</p><h2>Driver event password</h2><p>Every registered driver will use this password with their own email address.</p></div><button id="close-event-password-dialog" type="button" aria-label="Close">×</button></header>
+        <div class="password-fields">
+          <label>New event password<input name="password" type="password" autocomplete="new-password" minlength="10" required></label>
+          <label>Confirm event password<input name="confirmPassword" type="password" autocomplete="new-password" minlength="10" required></label>
+          <p>Use at least 10 characters. Changing it will sign drivers out so they can sign back in with the new password.</p>
+          <p id="event-password-error" class="form-error" role="alert"></p>
+        </div>
+        <div class="job-modal-actions"><button id="cancel-event-password" class="cancel-job" type="button">Cancel</button><button class="send-job" type="submit">Save event password</button></div>
+      </form>
+    </dialog>
+    <div id="ops-toast" class="ops-toast" role="status" aria-live="polite"></div>
+    <script src="./access.js?v=phone-invite-8"></script><script src="./operations.js?v=dashboard-theme-1"></script>
+  <script src="./admin-link.js?v=admin-1"></script></body>
+</html>

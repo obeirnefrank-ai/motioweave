@@ -1,0 +1,87 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import { readFileSync } from 'node:fs';
+import { DatabaseSync } from 'node:sqlite';
+import ts from 'typescript';
+const source = readFileSync(new URL('../worker/index.ts', import.meta.url),'utf8').replace(/^import .*;$/gm,'').split('export default')[0];
+function setup() {
+  const sqlite = new DatabaseSync(':memory:');
+  const DB = { prepare(sql) { let args=[]; return { bind(...values){args=values;return this;}, async all(){return {results:sqlite.prepare(sql).all(...args)};}, async first(){return sqlite.prepare(sql).get(...args)||null;}, async run(){return {meta:sqlite.prepare(sql).run(...args)};} }; }, async batch(statements){sqlite.exec('BEGIN');try{const results=[];for(const stmt of statements)results.push(await stmt.run());sqlite.exec('COMMIT');return results;}catch(error){sqlite.exec('ROLLBACK');throw error;}} };
+  const ctx=vm.createContext({crypto,TextEncoder,Uint8Array,btoa,Date,URL,Request,Response});
+  vm.runInContext(ts.transpile(source,{target:ts.ScriptTarget.ES2022}),ctx);
+  const env={DB};
+  const request=(path,body,identity='obeirnefrank@gmail.com',origin='https://taxi.test',method=body?'PATCH':'GET')=>new Request(`https://taxi.test/api/admin/${path}`,{method,headers:{...(identity?{'oai-authenticated-user-id':'owner-id','oai-authenticated-user-email':identity}:{}),origin,'content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
+  const call=async(req)=>ctx.api(req,env,new URL(req.url));
+  return {ctx,env,sqlite,request,call};
+}
+test('administrator identity fails closed for anonymous users, event sessions and other accounts',async()=>{
+ const {call,request}=setup();
+ for(const email of ['', 'someone@example.com'])assert.equal((await call(request('me',null,email))).status,403);
+ const eventReq=request('me',null,'');eventReq.headers.set('cookie','rankflow_session=event-token');assert.equal((await call(eventReq)).status,403);
+ const missingId=request('me');missingId.headers.delete('oai-authenticated-user-id');assert.equal((await call(missingId)).status,403);
+ const valid=await call(request('me'));assert.equal(valid.status,200);assert.equal((await valid.json()).user.role,'admin');
+});
+test('admin removal hides an idle driver, disconnects alerts and retains an audit record',async()=>{
+ const {ctx,env,sqlite,call,request}=setup();await ctx.ensureSchema(env.DB);
+ sqlite.exec("CREATE TABLE push_subscriptions(endpoint TEXT PRIMARY KEY,driver_id TEXT NOT NULL,updated_at TEXT NOT NULL); INSERT INTO drivers(id,name,taxi_number,status,instruction,contact_name,destination,updated_at) VALUES('d1','Idle Driver','01','available','','','','now'),('d2','Busy Driver','02','busy','','','','now'); UPDATE drivers SET current_job_id='active-job' WHERE id='d2'; INSERT INTO push_subscriptions VALUES('https://fcm.googleapis.com/test','d1','now')");
+ assert.equal((await call(request('drivers/d1',null,'','https://taxi.test','DELETE'))).status,403);
+ assert.equal((await call(request('drivers/d2',null,'obeirnefrank@gmail.com','https://taxi.test','DELETE'))).status,409);
+ const removed=await call(request('drivers/d1',null,'obeirnefrank@gmail.com','https://taxi.test','DELETE'));
+ assert.equal(removed.status,200);assert.equal((await removed.json()).retainedJobHistory,true);
+ assert.equal(sqlite.prepare("SELECT status FROM drivers WHERE id='d1'").get().status,'inactive');
+ assert.equal(sqlite.prepare("SELECT count(*) AS n FROM push_subscriptions WHERE driver_id='d1'").get().n,0);
+ assert.equal(sqlite.prepare("SELECT count(*) AS n FROM admin_audit WHERE driver_id='d1'").get().n,1);
+ const listed=await call(request('drivers'));
+ assert.deepEqual((await listed.json()).drivers.map(driver=>driver.id),['d2']);
+});
+test('a phone invitation remains usable for browser and Home Screen setup until it expires',async()=>{
+ const {ctx,env,sqlite,call,request}=setup();await ctx.ensureSchema(env.DB);
+ sqlite.exec("CREATE TABLE driver_invites(token_hash TEXT PRIMARY KEY,driver_id TEXT NOT NULL,phone_number TEXT NOT NULL,created_by TEXT NOT NULL,created_at TEXT NOT NULL,expires_at TEXT NOT NULL,redeemed_at TEXT)");
+ const created=await call(request('driver-invites',{name:'Invited Driver',taxiNumber:'12',phoneNumber:'+44 7700 900123'},'obeirnefrank@gmail.com','https://taxi.test','POST'));
+ assert.equal(created.status,201);const invite=await created.json();assert.equal(invite.phoneNumber,'+447700900123');
+ assert.equal(sqlite.prepare("SELECT status FROM drivers WHERE taxi_number='12'").get().status,'offline');
+ const repeated=await call(request('driver-invites',{name:'Invited Driver',taxiNumber:'12',phoneNumber:'+44 7700 900124'},'obeirnefrank@gmail.com','https://taxi.test','POST'));
+ assert.equal(repeated.status,201);const repeatedInvite=await repeated.json();assert.equal(repeatedInvite.driverId,invite.driverId);assert.equal(repeatedInvite.reinvited,true);
+ assert.equal(sqlite.prepare("SELECT count(*) AS n FROM drivers WHERE taxi_number='12'").get().n,1);assert.equal(sqlite.prepare('SELECT count(*) AS n FROM driver_invites').get().n,2);
+ const inviteUrl=new URL(invite.inviteUrl), inviteRequest=new Request(`https://taxi.test/api/driver-invites/${inviteUrl.searchParams.get('invite')}`);
+ assert.equal((await call(inviteRequest)).status,200);
+ const accepted=await call(new Request(inviteRequest.url,{method:'POST',body:JSON.stringify({createInstallInvite:true})}));assert.equal(accepted.status,200);assert.match(accepted.headers.get('set-cookie'),/^rankflow_session=/);
+ const browserPayload=await accepted.json();assert.equal(browserPayload.driver.taxiNumber,'12');assert.equal(browserPayload.installInviteToken,inviteUrl.searchParams.get('invite'));
+ sqlite.exec("UPDATE driver_invites SET redeemed_at='legacy-click'");
+ assert.equal((await call(new Request(inviteRequest.url,{method:'POST'}))).status,200);
+ const manifestResponse=await call(new Request(`https://taxi.test/api/driver-install-manifest/${browserPayload.installInviteToken}`));assert.equal(manifestResponse.status,200);assert.match(manifestResponse.headers.get('content-type'),/^application\/manifest\+json/);
+ const manifest=await manifestResponse.json();assert.equal(manifest.start_url,`/rankflow/driver.html?invite=${browserPayload.installInviteToken}`);assert.equal(manifest.display,'standalone');
+ const installedUrl=`https://taxi.test/api/driver-invites/${browserPayload.installInviteToken}`;
+ const installed=await call(new Request(installedUrl,{method:'POST',body:'{}'}));assert.equal(installed.status,200);assert.equal((await installed.json()).driver.taxiNumber,'12');
+ assert.equal((await call(new Request(installedUrl,{method:'POST',body:'{}'}))).status,200);
+ assert.equal(sqlite.prepare('SELECT count(*) AS n FROM sessions').get().n,4);
+});
+test('driver invite shows saved details before the driver chooses to connect',()=>{
+ const html=readFileSync(new URL('../public/rankflow/driver.html',import.meta.url),'utf8');
+ const manifest=JSON.parse(readFileSync(new URL('../public/rankflow/driver-manifest.webmanifest',import.meta.url),'utf8'));
+ const driver=readFileSync(new URL('../public/rankflow/driver.js',import.meta.url),'utf8');
+ assert.doesNotMatch(html,/Driver navigation|>Queue<|>Settings</);
+ assert.equal('start_url' in manifest,false);
+ assert.match(driver,/if \(installedApp\) return connectInvite\(false\)/);
+ assert.match(driver,/connect-invite-button'\)\.addEventListener\('click',\(\) => connectInvite\(true\)\)/);
+ assert.match(driver,/installUrl\.searchParams\.set\('install',accepted\.installInviteToken\)/);
+ assert.match(html,/get\('install'\)/);
+ assert.match(html,/stays usable for seven days/);
+ assert.match(html,/Add to Home Screen/);
+});
+test('admin edit saves and audits atomically, rejects stale, busy, duplicate taxi and cross-origin edits',async()=>{
+ const {ctx,env,sqlite,call,request}=setup();await ctx.ensureSchema(env.DB);
+ sqlite.exec("INSERT INTO drivers(id,name,taxi_number,status,instruction,contact_name,destination,updated_at) VALUES('d1','Original','01','available','','','','now'),('d2','Other','02','available','','','','now')");
+ const edit={name:'Updated',taxiNumber:'03',version:1};
+ assert.equal((await call(request('drivers/d1',edit))).status,200);
+ assert.equal(sqlite.prepare("SELECT name FROM drivers WHERE id='d1'").get().name,'Updated');
+ assert.equal(sqlite.prepare('SELECT count(*) AS n FROM admin_audit').get().n,1);
+ assert.equal((await call(request('drivers/d1',edit))).status,409);
+ assert.equal((await call(request('drivers/d1',{...edit,taxiNumber:'02',version:2}))).status,409);
+ assert.equal((await call(request('drivers/d1',{...edit,version:2},'obeirnefrank@gmail.com','https://evil.test'))).status,403);
+ sqlite.exec("UPDATE drivers SET current_job_id='active-job' WHERE id='d1'");
+ assert.equal((await call(request('drivers/d1',{...edit,version:2}))).status,409);
+ assert.equal(sqlite.prepare('SELECT count(*) AS n FROM admin_audit').get().n,1);
+ assert.equal((await call(request('drivers/d1',{...edit,taxiNumber:'abc'}))).status,400);
+});

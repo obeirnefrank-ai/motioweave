@@ -1,0 +1,7 @@
+.app-theme-toggle { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:43px; padding:0 14px; border:1px solid #3b5549; border-radius:9px; background:#10211b; color:#edf4ef; font:inherit; font-size:11px; font-weight:850; white-space:nowrap; cursor:pointer; }
+.app-theme-toggle span { color:#f5a916; font-size:16px; }
+.app-theme-toggle:hover { border-color:#f5a916; }
+.light-mode .app-theme-toggle { border-color:#aab8b0; background:#fff; color:#173b2d; }
+.light-mode .app-theme-toggle:hover { border-color:#d78300; }
+.data-header-actions { display:flex; align-items:center; gap:10px; }
+@media (max-width:720px) { .app-theme-toggle { min-height:40px; padding:0 11px; } }

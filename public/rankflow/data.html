@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#071813" />
+    <link rel="stylesheet" href="./operations.css" />
+    <link rel="stylesheet" href="./data.css" />
+    <link rel="stylesheet" href="./shared-theme.css?v=shared-theme-1" />
+    <title>Motion Weave Control — Event Data</title>
+  </head>
+  <body class="dark-mode">
+    <aside class="side-rail">
+      <a class="ops-brand" href="./operations.html"><img src="./assets/motion-weave-logo-orange-black.png" alt="Motion Weave" /></a>
+      <nav aria-label="Operations navigation">
+        <a href="./operations.html"><i>O</i><span>Drive Office</span></a>
+        <a class="active" href="./data.html"><i>↗</i><span>Job Data</span></a>
+        <a href="./index.html#marshal"><i>M</i><span>Marshal app</span></a>
+        <a href="./driver.html"><i>D</i><span>Driver app</span></a>
+      </nav>
+      <div class="rail-foot"><span class="signal"></span><div><strong id="connection-text">Connecting</strong><small>Fleet server</small></div></div>
+    </aside>
+
+    <main class="desktop-main data-main">
+      <header class="desktop-header">
+        <div><p class="kicker">RETAINED EVENT DATA</p><h1>Job data by source</h1><p>Keep office bookings separate from jobs entered directly at a rank.</p></div>
+        <div class="data-header-actions"><button class="app-theme-toggle" data-theme-toggle type="button" aria-pressed="true"><span aria-hidden="true">◐</span><b>Light screen</b></button><button id="export-data" class="export-button" type="button">Export all data</button></div>
+      </header>
+
+      <nav class="source-tabs" aria-label="Job data source">
+        <button class="active" type="button" data-source-tab="office"><i>O</i><span><strong>Drive Office Bookings</strong><small>Jobs assigned from the desktop dashboard</small></span></button>
+        <button type="button" data-source-tab="rank"><i>R</i><span><strong>Rank iPad Jobs</strong><small>Jobs entered directly at a rank</small></span></button>
+        <button type="button" data-source-tab="taxi"><i>T</i><span><strong>Taxi Data</strong><small>Search the job history for one taxi</small></span></button>
+      </nav>
+
+      <div id="office-data" class="source-panel">
+        <section class="data-metrics office-metrics">
+          <article><span>Desktop bookings</span><strong id="office-jobs">0</strong><small>Assigned from Operations</small></article>
+          <article><span>Passengers booked</span><strong id="office-passengers">0</strong><small>From recorded assignments</small></article>
+          <article><span>Drivers used</span><strong id="office-drivers">0</strong><small>Unique taxis assigned</small></article>
+          <article class="cancelled-metric"><span>Cancelled bookings</span><strong id="office-cancelled">0</strong><small>Cancelled by Drive Office</small></article>
+        </section>
+        <span id="registered-drivers" hidden></span>
+        <section class="fleet-data-card">
+          <div class="fleet-data-heading"><div><p class="kicker">AVAILABLE TAXI QUEUE</p><h2>Drive office fleet</h2><p>The current queue and phone status from the desktop Operations dashboard.</p></div><div class="fleet-data-counts"><span><b id="office-ready">0</b> Ready</span><span><b id="office-working">0</b> Working / booked</span><span><b id="office-unavailable">0</b> Break / offline</span></div></div>
+          <div class="data-table-wrap fleet-table"><table><thead><tr><th>Queue</th><th>Taxi &amp; driver</th><th>Available since</th><th>Waiting</th><th>Status</th><th>Current work</th></tr></thead><tbody id="office-fleet-records"></tbody></table></div>
+          <footer><span id="office-fleet-count">Showing 0 fleet phones</span><span>Ready taxis ordered longest waiting first</span></footer>
+        </section>
+        <section class="ranking-grid two-up">
+          <article class="ranking-card"><header><div><p class="kicker">OFFICE PICK-UPS</p><h2>Most booked pick-ups</h2></div><span>Bookings</span></header><div id="office-pickup-ranking" class="ranking-list"></div></article>
+          <article class="ranking-card"><header><div><p class="kicker">OFFICE DROP-OFFS</p><h2>Most booked drop-offs</h2></div><span>Bookings</span></header><div id="office-dropoff-ranking" class="ranking-list"></div></article>
+        </section>
+        <section class="records-card">
+          <div class="records-titlebar"><div><p class="kicker">DRIVE OFFICE HISTORY</p><h2>Previous office bookings</h2><p>Each job created on the desktop Operations dashboard and sent to a driver.</p></div></div>
+          <div class="data-table-wrap"><table><thead><tr><th>Date &amp; time</th><th>Pick-up</th><th>Drop-off</th><th>Taxi</th><th>Driver</th><th>Passenger name</th><th>Passengers</th><th>Status</th></tr></thead><tbody id="office-records"></tbody></table></div>
+          <footer><span id="office-record-count">Showing 0 bookings</span><span>Most recent first</span></footer>
+        </section>
+        <section class="records-card cancelled-office-card">
+          <div class="records-titlebar"><div><p class="kicker">DRIVE OFFICE CANCELLATIONS</p><h2>Cancelled office bookings</h2><p>Bookings cancelled after being assigned or reserved by the Drive Office.</p></div><span id="office-cancelled-count" class="cancelled-count">0 cancelled</span></div>
+          <div class="data-table-wrap"><table><thead><tr><th>Cancelled</th><th>Original pickup</th><th>Drop-off</th><th>Taxi</th><th>Driver</th><th>Passenger name</th><th>Passengers</th><th>Status</th></tr></thead><tbody id="office-cancelled-records"></tbody></table></div>
+          <footer><span>Drive Office cancellations only</span><span>Most recent first</span></footer>
+        </section>
+        <section class="records-card">
+          <div class="records-titlebar"><div><p class="kicker">IMMUTABLE AUDIT HISTORY</p><h2>Who changed what</h2><p>Every job and driver-state change, with its signed-in person and time.</p></div></div>
+          <div class="data-table-wrap"><table><thead><tr><th>Date &amp; time</th><th>Person</th><th>Action</th><th>Taxi</th><th>Source</th></tr></thead><tbody id="audit-records"></tbody></table></div>
+          <footer><span id="audit-count">Showing 0 changes</span><span>Most recent first · append-only</span></footer>
+        </section>
+      </div>
+
+      <div id="rank-data" class="source-panel" hidden>
+
+      <section class="data-metrics rank-metrics">
+        <article><span>Total jobs</span><strong id="total-jobs">0</strong><small>Completed rank jobs</small></article>
+        <article><span>Passengers moved</span><strong id="passengers-moved">0</strong><small>Completed jobs</small></article>
+        <article><span>Drivers used</span><strong id="drivers-used">0</strong><small>Unique taxi numbers</small></article>
+      </section>
+
+      <section class="ranking-grid two-up">
+        <article class="ranking-card"><header><div><p class="kicker">PICK-UP VOLUME</p><h2>Most popular pick-ups</h2></div><span>Jobs</span></header><div id="pickup-ranking" class="ranking-list"></div></article>
+        <article class="ranking-card"><header><div><p class="kicker">DROP-OFF VOLUME</p><h2>Most popular drop-offs</h2></div><span>Jobs</span></header><div id="dropoff-ranking" class="ranking-list"></div></article>
+      </section>
+
+      <section class="records-card">
+        <div class="records-titlebar"><div><p class="kicker">RANK IPAD HISTORY</p><h2>Previous rank jobs</h2><p>Completed jobs entered directly by marshals at a rank.</p></div><div class="record-controls"><label>Date<input id="record-date" type="date" /></label><button id="clear-filters" type="button">Clear</button></div></div>
+        <div class="data-table-wrap"><table><thead><tr><th>Date &amp; time</th><th>Pick-up</th><th>Drop-off</th><th>Taxi</th><th>Passengers</th><th>Marshal</th><th>Status</th></tr></thead><tbody id="job-records"></tbody></table></div>
+        <footer><span id="record-count">Showing 0 jobs</span><span>Most recent first</span></footer>
+      </section>
+      </div>
+
+      <div id="taxi-data" class="source-panel" hidden>
+        <section class="records-card taxi-search-card">
+          <div class="records-titlebar">
+            <div><p class="kicker">ONE TAXI · ALL JOB SOURCES</p><h2>Search taxi data</h2><p>View only the Drive Office and Rank iPad jobs recorded for one taxi.</p></div>
+            <div class="record-controls taxi-search-controls">
+              <label>Taxi number<input id="taxi-search" type="search" list="taxi-options" inputmode="numeric" autocomplete="off" placeholder="e.g. 10" /></label>
+              <datalist id="taxi-options"></datalist>
+              <button id="clear-taxi-search" type="button">Clear</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="data-metrics taxi-metrics">
+          <article><span>Total jobs</span><strong id="taxi-total-jobs">0</strong><small>Across both job sources</small></article>
+          <article><span>Drive Office</span><strong id="taxi-office-jobs">0</strong><small>Desktop bookings</small></article>
+          <article><span>Rank iPad</span><strong id="taxi-rank-jobs">0</strong><small>Completed rank jobs</small></article>
+          <article><span>Passengers</span><strong id="taxi-passengers">0</strong><small>Recorded for this taxi</small></article>
+        </section>
+
+        <section class="records-card taxi-history-card">
+          <div class="records-titlebar"><div><p class="kicker">TAXI JOB HISTORY</p><h2 id="taxi-history-title">Select a taxi</h2><p>Combined job data, with the original source shown on every row.</p></div></div>
+          <div class="data-table-wrap"><table><thead><tr><th>Date &amp; time</th><th>Source</th><th>Pick-up</th><th>Drop-off</th><th>Taxi</th><th>Driver / Marshal</th><th>Passengers</th><th>Status</th></tr></thead><tbody id="taxi-records"><tr><td colspan="8">Enter a taxi number to view its job data.</td></tr></tbody></table></div>
+          <footer><span id="taxi-record-count">Showing 0 jobs</span><span>Most recent first</span></footer>
+        </section>
+      </div>
+    </main>
+    <div id="data-toast" class="ops-toast" role="status" aria-live="polite"></div>
+    <script src="./shared-theme.js?v=shared-theme-1"></script><script src="./access.js?v=open-access-1"></script><script src="./data.js?v=taxi-data-2"></script>
+  <script src="./admin-link.js?v=admin-1"></script></body>
+</html>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 336 64" role="img" aria-labelledby="title desc">
+  <title id="title">Motion Weave</title>
+  <desc id="desc">Interlaced strands weave over and under beside the Motion Weave wordmark.</desc>
+  <defs>
+    <mask id="amber-weave" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="64">
+      <rect width="100" height="64" fill="#fff"/>
+      <circle cx="39.5" cy="32" r="5.5" fill="#000"/><circle cx="81.5" cy="32" r="5.5" fill="#000"/>
+    </mask>
+    <mask id="cream-weave" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="64">
+      <rect width="100" height="64" fill="#fff"/>
+      <circle cx="18.5" cy="32" r="5.5" fill="#000"/><circle cx="60.5" cy="32" r="5.5" fill="#000"/>
+    </mask>
+  </defs>
+  <path d="M8 16L29 48L50 16L71 48L92 16" fill="none" stroke="#F5A916" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" mask="url(#amber-weave)"/>
+  <path d="M8 48L29 16L50 48L71 16L92 48" fill="none" stroke="#FFF9EA" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" mask="url(#cream-weave)"/>
+  <text x="111" y="43" fill="#FFF9EA" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="800" letter-spacing="-1.1">Motion Weave</text>
+</svg>

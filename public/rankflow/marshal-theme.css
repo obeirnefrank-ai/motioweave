@@ -1,0 +1,83 @@
+/* Shared Motion Weave dark surfaces, gold actions and system typography. */
+:root { color-scheme:dark; --ink:#edf4ef; --forest:#f5a916; --muted:#a7b8af; --line:#294038; --card:#0f1e19; --ltda-gold:#f5a916; --ltda-orange:#f5a916; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:#071813; }
+body { margin:0; background:#071813; color:var(--ink); }
+[hidden] { display:none !important; }
+.app-shell { max-width:1440px; padding:0 32px 40px; }
+.topbar { min-height:88px; height:auto; padding:20px 0; gap:24px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.brand { color:#edf4ef; }
+.brand-logo { display:block; width:118px; height:auto; border-radius:12px; box-shadow:0 10px 24px rgba(0,0,0,.28); }
+.topbar nav { display:flex; flex-wrap:wrap; gap:6px; }
+.topbar nav a { padding:12px; border-radius:9px; color:#aab9b2; font-size:14px; font-weight:700; }
+.topbar nav a:hover,.topbar nav a.active { background:#193529; color:#fff; }
+.app-area-label { margin-right:auto; color:#aab9b2; font-size:14px; font-weight:700; }
+.event-chip,.marshal-profile { border:1px solid #385045; background:#13261f; color:#c4d1ca; }
+.view { padding-top:32px; }
+.page-heading h1 { color:#edf4ef; font-size:38px; line-height:1.1; letter-spacing:-1.5px; }
+.eyebrow,.text-button,.event-london-taxis { color:#f5a916; }
+.eyebrow { font-size:12px; letter-spacing:1.7px; }
+.subheading,.lead,.empty-state,.dialog-copy,.recent-item small,.recent-item time { color:#a7b8af; }
+.entry-card,.recent-card,.table-card,.rank-summary,.cancelled-card,.metric,.welcome-panel { background:#0f1e19; border:1px solid #294038; border-radius:13px; color:#edf4ef; box-shadow:0 14px 35px rgba(0,0,0,.12); }
+.rank-banner { background:#193529; color:#edf4ef; border-bottom:1px solid #294038; }
+.rank-banner strong { color:#f5a916; }
+.form-section label,legend,.login-label { color:#c4d1ca; font-size:14px; }
+input,select,.dialog-card input { background:#13261f; border:1px solid #385045; color:#edf4ef; font:inherit; font-size:16px; min-height:48px; }
+input::placeholder { color:#91a89b; }
+input:focus,select:focus { border-color:#75a088; box-shadow:0 0 0 3px rgba(117,160,136,.18); }
+.button.primary,.primary,.submit-button,.keypad-enter { background:#f5a916; color:#13231d; border:1px solid #f5a916; border-radius:9px; }
+.primary:hover,.submit-button:hover,.keypad-enter:hover { background:#ffc34d; color:#13231d; }
+.button.secondary,.rank-option,.quick-rank-option,.passenger-options button { background:#14251f; border:1px solid #40584d; color:#edf4ef; border-radius:9px; }
+.rank-option:hover,.quick-rank-option:hover { background:#193529; border-color:#75a088; }
+.passenger-options button.selected { background:#f5a916; color:#13231d; border-color:#f5a916; }
+.count-pill { background:#193529; color:#d9f36d; }
+.taxi-badge { background:#193529; color:#f5a916; }
+.recent-item,td,th,.card-heading,.rank-row { border-color:#294038; }
+.recent-item strong,.card-heading h2,.dialog-card h2 { color:#edf4ef; }
+.onboard-label { color:#d9f36d; font-size:12px; font-weight:800; text-align:right; }
+.submit-button:disabled { opacity:.6; cursor:wait; }
+.taxi-number-entry { display:flex; gap:8px; align-items:stretch; }
+.taxi-number-entry input { min-width:0; flex:1; }
+.taxi-number-entry button { flex:none; min-height:48px; padding:0 12px; border:1px solid #607d6e; border-radius:8px; background:#193529; color:#edf4ef; font-size:14px; font-weight:800; }
+.open-taxi-keypad { margin-top:8px; padding:5px 0; border:0; background:transparent; color:#f5b438; font-size:14px; font-weight:750; }
+.taxi-status { min-height:2.8em; margin:9px 0 0; color:#a7b8af; font-size:14px; line-height:1.4; }
+.taxi-status[data-state="ready"] { color:#d9f36d; }
+.taxi-status[data-state="blocked"] { color:#ffb7a5; }
+.row-action,.cancelled-item,.picker-content { background:#13261f; border-color:#385045; color:#edf4ef; }
+.danger,.row-action.danger { color:#ffb7a5; }
+dialog { border:1px solid #385045; border-radius:13px; padding:0; background:#0f1e19; color:#edf4ef; }
+.dialog-card { background:#0f1e19; color:#edf4ef; }
+dialog::backdrop { background:rgba(0,0,0,.65); }
+.taxi-keypad { background:#0f1e19; border:1px solid #385045; }
+.keypad-grid button { background:#193529; color:#edf4ef; }
+.keypad-grid .keypad-delete,.keypad-grid .keypad-clear { background:#294038; color:#edf4ef; }
+.toast { background:#193529; border:1px solid #75a088; color:#fff; }
+@media(max-width:800px) { .app-shell { padding:0 20px 32px; } .topbar { gap:14px; } .topbar nav { display:flex; order:3; width:100%; } .topbar nav a { padding:10px; } .page-heading h1 { font-size:32px; } .marshal-layout { grid-template-columns:1fr; } }
+@media(max-width:430px) { .app-shell { padding-inline:14px; } .topbar nav { gap:2px; } .topbar nav a { padding:9px 7px; font-size:13px; } }
+
+/* Light Marshal workspace */
+body.light-mode { --ink:#10261f; --forest:#b16d00; --muted:#718078; --line:#d6ddd8; --card:#fff; color-scheme:light; background:#eef1ed; color:#10261f; }
+.light-mode .brand { color:#10261f; }
+.light-mode .topbar nav a { color:#66766e; }
+.light-mode .topbar nav a:hover,.light-mode .topbar nav a.active { background:#dfe9e2; color:#10261f; }
+.light-mode .app-area-label { color:#66766e; }
+.light-mode .event-chip,.light-mode .marshal-profile { border-color:#cbd4ce; background:#fff; color:#38534a; }
+.light-mode .page-heading h1 { color:#10261f; }
+.light-mode .subheading,.light-mode .lead,.light-mode .empty-state,.light-mode .dialog-copy,.light-mode .recent-item small,.light-mode .recent-item time { color:#718078; }
+.light-mode .entry-card,.light-mode .recent-card,.light-mode .table-card,.light-mode .rank-summary,.light-mode .cancelled-card,.light-mode .metric,.light-mode .welcome-panel { border-color:#d6ddd8; background:#fff; color:#10261f; box-shadow:0 14px 35px rgba(15,37,29,.06); }
+.light-mode .rank-banner { border-color:#d6ddd8; background:#edf5ea; color:#315f4b; }
+.light-mode .form-section label,.light-mode legend,.light-mode .login-label { color:#38534a; }
+.light-mode input,.light-mode select,.light-mode .dialog-card input { border-color:#cbd4ce; background:#fff; color:#10261f; }
+.light-mode input::placeholder { color:#87938c; }
+.light-mode .button.secondary,.light-mode .rank-option,.light-mode .quick-rank-option,.light-mode .passenger-options button { border-color:#cbd4ce; background:#fff; color:#10261f; }
+.light-mode .rank-option:hover,.light-mode .quick-rank-option:hover { background:#f2f6f3; border-color:#75a088; }
+.light-mode .count-pill { background:#e8f0e9; color:#315f4b; }
+.light-mode .taxi-badge { background:#10261f; color:#f5a916; }
+.light-mode .recent-item,.light-mode td,.light-mode th,.light-mode .card-heading,.light-mode .rank-row { border-color:#e0e5e1; }
+.light-mode .recent-item strong,.light-mode .card-heading h2,.light-mode .dialog-card h2 { color:#10261f; }
+.light-mode .taxi-number-entry button { border-color:#9fb0a7; background:#edf3ef; color:#174b37; }
+.light-mode .taxi-status { color:#718078; }
+.light-mode .row-action,.light-mode .cancelled-item,.light-mode .picker-content { border-color:#d6ddd8; background:#fff; color:#10261f; }
+.light-mode dialog,.light-mode .dialog-card { border-color:#d6ddd8; background:#fff; color:#10261f; }
+.light-mode .taxi-keypad { border-color:#cbd4ce; background:#f6f8f6; }
+.light-mode .keypad-grid button { background:#fff; color:#10261f; }
+.light-mode .keypad-grid .keypad-delete,.light-mode .keypad-grid .keypad-clear { background:#e7ece8; color:#10261f; }
+.light-mode .toast { border-color:#75a088; background:#fff; color:#10261f; }

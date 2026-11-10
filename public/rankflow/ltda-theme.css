@@ -1,0 +1,34 @@
+:root {
+  --ltda-gold: #ffc400;
+  --ltda-orange: #ec8d00;
+}
+
+.brand-mark,
+.primary { background: var(--ltda-gold); }
+
+.primary:hover { background: #ffd43b; }
+
+.eyebrow,
+.text-button { color: var(--ltda-orange); }
+
+.welcome-panel .eyebrow { color: var(--ltda-orange); }
+
+.active-rank { border-top: 1px solid #355147; border-bottom: 1px solid #355147; padding: 15px 0 17px; margin: 0 0 24px; }
+.active-rank span { display: block; color: #c9d4cf; font-size: 10px; font-weight: 800; letter-spacing: 1.1px; margin-bottom: 5px; }
+.active-rank strong { display: block; color: var(--ltda-gold); font-size: 28px; line-height: 1.08; letter-spacing: -0.9px; }
+
+@media (min-width: 801px) {
+  .welcome-panel { align-self: start; margin-top: 365px; }
+}
+
+.event-chip,
+.marshal-profile { border-color: #f0c35a; background: #fff7df; color: #6b4b00; }
+
+.live-dot { background: var(--ltda-orange); }
+
+.rank-banner,
+.count-pill { background: #fff7df; color: #6b4b00; }
+
+.quick-rank-option:hover { background: #fff9e8; border-color: #e9b644; }
+
+.bar i { background: var(--ltda-orange); }
