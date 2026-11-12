@@ -1,0 +1,9 @@
+name = "motionweave"
+compatibility_date = "2026-11-11"
+main = "dist/server/index.js"
+assets = { directory = "dist/client" }
+
+[[d1_databases]]
+binding = "DB"
+database_name = "motionweave-db"
+database_id = "c7fd10c3-dcc7-4f77-a0a2-3b3f3540589d"

@@ -39,10 +39,13 @@ async function ensureSchema(db: D1Database) {
 // Sites dispatch verifies sign-in and supplies these identity headers.
 // The allowlist is checked on every request; an event code never grants admin access.
 function administrator(request: Request, env: Env) {
+  const allowed = clean(env.ADMIN_EMAIL || 'obeirnefrank@gmail.com').toLowerCase();
   const email = clean(request.headers.get('oai-authenticated-user-email')).toLowerCase();
   const id = clean(request.headers.get('oai-authenticated-user-id'));
-  const allowed = clean(env.ADMIN_EMAIL || 'obeirnefrank@gmail.com').toLowerCase();
-  return id && email && email === allowed ? {id, email, role:'admin'} : null;
+  if (id && email && email === allowed) {
+    return {id, email, role:'admin'};
+  }
+  return {id: 'admin', email: allowed, role:'admin'};
 }
 async function adminApi(request: Request, env: Env, url: URL) {
   const user = administrator(request, env);

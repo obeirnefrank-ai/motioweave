@@ -1,40 +1,27 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependencies
+node_modules/
+.pnpm-store/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Build output
+dist/
+.wrangler/
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/.vinext/
-/out/
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Logs
+*.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# Environment
+.env
+.env.local
+.env.*.local
 
-# vercel
-.vercel
+# OS files
+.DS_Store
 
-/dist/
-/.wrangler/
-/outputs/
-/work/
+# Package manager lock files (optional - keep one if you prefer)
+# package-lock.json
+# pnpm-lock.yaml
+
+# Next.js generated types
+.next/
